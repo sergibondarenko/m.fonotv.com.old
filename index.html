@@ -26,48 +26,18 @@
 	<link rel="stylesheet" href="css/media.css">
 
 	<script src="libs/modernizr/modernizr.js"></script>
-	    <script>$(function() {
-
-    var $allVideos = $("iframe[src^='//player.vimeo.com'], iframe[src^='//www.youtube.com'], object, embed"),
-    $fluidEl = $("figure");
-
-	$allVideos.each(function() {
-
-	  $(this)
-	    // jQuery .data does not work on object/embed elements
-	    .attr('data-aspectRatio', this.height / this.width)
-	    .removeAttr('height')
-	    .removeAttr('width');
-
-	});
-
-	$(window).resize(function() {
-
-	  var newWidth = $fluidEl.width();
-	  $allVideos.each(function() {
-
-	    var $el = $(this);
-	    $el
-	        .width(newWidth)
-	        .height(newWidth * $el.attr('data-aspectRatio'));
-
-	  });
-
-	}).resize();
-
-});</script>
 
 </head>
 
 <body>
 
 	<div class="content">
-		<img src="img/bg.jpg" alt="">
 		<!--
-		<video preload='auto' autoplay muted loop id="video-about">
+		<img src="img/bg.jpg" alt="">
+		-->
+		<video preload='auto' id="video-about">
 			<source src="img/video.mp4" type="video/mp4">
 		</video>
-		-->
 	</div>
 
 	
@@ -178,7 +148,7 @@
 
 		</div>
 	</a>
-	<a href="javascript:void(0)" class="play">
+	<a href="javascript:void(0)" class="play" id="play">
 		<div class="circle">
 			<div class="button">
 				<img src="img/play.png" alt="">
@@ -201,6 +171,14 @@
 	<script src="libs/jquery/jquery-1.11.2.min.js"></script>
 	
 	<script src="js/common.js"></script>
+	<script>
+		var video = document.getElementById('video-about');
+		var play  = document.getElementById('play');
+		play.addEventListener('click',function(){
+			play.style.display = 'none';
+  		video.play();
+		},false);
+	</script>
 	
 </body>
 </html>
