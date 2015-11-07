@@ -1,0 +1,218 @@
+@import "bourbon/bourbon"
+
+html.js .loader
+	background: none repeat scroll 0 0 #000
+	bottom: 0
+	height: 100%
+	left: 0
+	position: fixed
+	right: 0
+	top: 0
+	width: 100%
+	z-index: 9999
+	.loader_inner
+		background-image: url("../img/preloader.gif")
+		background-size: cover
+		background-repeat: no-repeat
+		background-position: center center
+		background-color: #000
+		height: 60px
+		width: 60px
+		margin-top: -30px
+		margin-left: -30px
+		left: 50%
+		top: 50%
+		position: absolute
+
+body
+	font-family: "RobotoRegular", sans-serif
+	font-weight: normal
+	font-size: 14px
+	min-width: 320px
+	position: relative
+	line-height: 1.6
+	-webkit-font-smoothing: antialised
+	overflow-x: hidden
+	overflow: hidden
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid
+	color: red
+body input:required:valid,
+body textarea:required:valid
+	color: green
+
+.hidden
+	display: none
+
+.content
+	display: block
+	position: absolute
+	width: 100%
+	height: 100%
+	z-index: 1
+	overflow: hidden
+	img
+		margin-left: -100px
+
+.main
+	overflow: hidden
+	z-index: 2
+	.popup-open
+		display: block
+		position: absolute
+		left: 50%
+		top: 14px
+		transform: translate(-50%, 0)
+		z-index: 2
+		svg
+			width: 125px
+	.play
+		width: 85px
+		height: 85px
+		display: block
+		position: absolute
+		left: 50%
+		top: 50%
+		transform: translate(-50%, -50%)
+		z-index: 3
+		.circle
+			width: 100%
+			height: 100%
+			background-color: #000
+			border-radius: 50%
+			opacity: 0.6
+			position: relative
+			.button
+				width: 50px
+				height: 42px
+				position: absolute
+				left: 50%
+				top: 50%
+				transform: translate(-50%, -50%)
+				overflow: hidden
+				img
+					width: 50px
+	footer
+		position: absolute
+		display: block
+		z-index: 3
+		left: 50%
+		bottom: 30px
+		transform: translate(-50%, 0)
+		text-align: center
+		img
+			width: 16px
+			display: inline-block
+			margin-top: 20px
+		.name
+			font-family: "ProximaNovaRegular"
+			color: #fff
+			font-size: 12px
+			font-weight: 300
+			letter-spacing: 1px
+			text-transform: uppercase
+			display: block
+	.popup
+		position: absolute
+		width: calc(100% - 40px)
+		height: calc(100% - 40px)
+		margin: 20px
+		z-index: 1
+		opacity: 0
+		transition: all 0.4s
+		p
+			padding: 20px
+	.logom
+		position: relative
+		width: 125px
+		height: 56px
+		background-color: transparent
+		display: inline-block
+		z-index: 11
+		img
+			position: absolute
+			left: 50%
+			transform: translate(-50%, 0)
+			top: 0
+	.close
+		position: absolute
+		display: block
+		right: 20px
+		top: 10px 
+		opacity: 0.3
+	.logoma
+		height: 56px
+		position: relative
+		float: left
+		background-color: #fff
+		width: calc(50% - 62.5px)
+		display: inline-block
+		z-index: 11
+	.logomb
+		height: 56px
+		position: relative
+		float: right
+		background-color: #fff
+		width: calc(50% - 62.5px)
+		display: inline-block
+		z-index: 11
+	.wrap
+		width: 100%
+		height: calc(100% - 56px)
+		margin-top: -6px
+		position: relative
+		background-color: #fff
+		.row
+			margin: 0
+			padding-top: 30px
+			padding-bottom: 10px
+			.link
+				text-align: center
+				a
+					font-family: "ProximaNovaBold"
+					text-transform: uppercase
+					font-size: 13px
+					color: #d9d9d9
+					font-weight: bold
+					letter-spacing: 1px
+				.active
+					color: #4e4e4e
+		.about-cont
+			padding: 0 15px
+			h1
+				text-align: center
+				text-transform: uppercase
+				font-family: "ProximaNovaBold"
+				font-size: 20px
+				font-weight: 700
+				color: #353535
+				letter-spacing: 1px
+				line-height: 1.3
+			p
+				padding: 0 20px
+				text-align: center
+				font-size: 12px
+				color: #afafaf
+				font-family: "ProximaNovaRegular"
+			.social
+				text-align: center
+				a
+					display: inline-block
+					margin: 6px
+					width: 20px
+					svg
+						height: 20px
+						width: 20px
+			.twid
+				position: absolute
+				bottom: 20px
+				left: 50%
+				transform: translate(-50%, 0)
+				opacity: 0.3
+				img
+					width: 50px
+		.contact-cont
+			display: none
+			overflow-y: scroll
+			height: calc(100% - 88px)
