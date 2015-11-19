@@ -1,93 +1,126 @@
-function playVideo(video_source, videoTag){
+var LOOP = 0;
+var mute = true;
+
+// Randomize
+function randomizer(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+// Function to play videos
+function playVideo(video_source, videoTag, videoNext){
+	var video = document.getElementById(videoTag); 
+	//var play_music = document.getElementById('play-music');
+	//var video_link = document.getElementById('orig-link');
+	//var video_link_title = document.getElementById('orig-link-title');
+
+	// Randomize video array
+	video_source = randomizer(video_source);
+
 	// Test console output
-	for(var i = 0; i < video_source.length; i++){
-	  console.log(video_source[i].file);
-	} 
+	//for(var i = 0; i < video_source.length; i++){
+	//  console.log(video_source[i].file);
+	//} 
 	
 	// Play coubs
 	var videoCount = video_source.length; 
 	var videoId = 0;
 	
-  //var local_file = video_source[0].file;
-  //local_file = local_file.split("/");
-  //local_file = "video/" + local_file[local_file.length - 1];
-	//document.getElementById(videoTag).setAttribute("src",local_file);
-	document.getElementById(videoTag).setAttribute("src",video_source[0].file);
-	 
-	document.getElementById(videoTag).addEventListener('ended',myHandler,false);
+	// Set the first video that starts automatically
+	video.setAttribute("src",video_source[videoId].file);
+	//video_link.setAttribute("href",video_source[videoId].orig_page);
+	//video_link_title.textContent = video_source[videoId].title;
 
-	function videoPlay(videoNum)
+	// Listen for video end and run handler to play other videos
+	video.addEventListener('ended',myHandler,false);
+
+	play_music.addEventListener('click', function(){
+  	muteVideo(video); 
+  }, false);
+
+	// Mute and unmute
+	function muteVideo(video){
+		if(video.muted)
+			video.muted = false;
+		else
+			video.muted = true;	
+	}
+
+	// Play all other videos
+	function playVideoForHandler(videoNum)
 	{
-    //local_file = video_source[videoNum].file;
-    //local_file = local_file.split("/");
-    //local_file = "video/" + local_file[local_file.length - 1];
-	  //document.getElementById(videoTag).setAttribute("src",video_source[videoNum].file);
-	  document.getElementById(videoTag).setAttribute("src",video_source[videoNum].file);
-	  document.getElementById(videoTag).load();
-	  document.getElementById(videoTag).play();
+	  video.setAttribute("src",video_source[videoNum].file);
+		//video_link.setAttribute("href",video_source[videoNum].orig_page);
+		//video_link_title.textContent = video_source[videoNum].title;
+
+		// Check for errors, play next video if error
+		video.addEventListener('error', function(){
+			videoNum++;
+			videoId = videoNum; // Update global variable to not repeat previous video
+	  	video.setAttribute("src",video_source[videoNum].file);
+			//video_link.setAttribute("href",video_source[videoNum].orig_page);
+			//video_link_title.textContent = video_source[videoNum].title;
+		}, true);
+
+	  video.load();
+
+		if(mute == true)
+			video.muted = true;	
+		else
+			video.muted = false;
+
+	  video.play();
 	}
 
 	function myHandler(){
+		//var mute = "";
+		if(video.muted)
+			mute = true;
+		else
+			mute = false;
+
 	  if (videoId == (videoCount - 1)){
 	    videoId = 0;
-	    videoPlay(videoId);
+	    playVideoForHandler(videoId);
 	  } else {
 	    videoId++;
-	    videoPlay(videoId);
+	    playVideoForHandler(videoId);
 	  }
-	}
+	} // myHandler
+
 }
 
 var video_source = {};
+// Execute the main controller stuff
 app.controller('MainController', ['$scope', 'coub', function($scope, coub){
 	
-	$scope.coubText = 'Space ship';
-	//var search_coubs = 'php/searchcoubs.php';
-	//var download_coubs = 'php/downloadcoubs.php';
 	var local_json = 'php/apimongo.php';
-	//var system_calls = 'php/systemcalls.php';
-
-	// Default play video
-	//coub.getCoubs(search_coubs, $scope.coubText).success(function(data){
-	//	video_source = data.coubs;	
-	//	playVideo(video_source, "myVideo");
-	//});
 
 	// Default play FonoTV video
 	coub.getCoubsForFTV(local_json).success(function(data){
 		video_source = data;	
-		playVideo(video_source, "video-about");
+		playVideo(video_source, "video-about", "video-about-next");
 	});
 
-	// Search for video and insert it
-  //$scope.fetch = function(){
-	//	// Search for video
-  //  coub.getCoubs(search_coubs, $scope.coubText).success(function(data){
-  //    video_source = data.coubs;
-	//		// Insert video in DOM
-	//		playVideo(video_source, "myVideo");
-  //  }); 
-  //}
-
-	//$scope.downloadCoub = function(){
-	//	coub.getCoubs(download_coubs, $scope.coubPageUrl).success(function(data){
-	//		$scope.coubVideoLink = data;
+	//$scope.deleteDbFTV = function(){
+	//	// Delete FonoTV DB
+	//	coub.deleteDbFTV(system_calls, local_json).success(function(data){
+	//		video_source = data;	
 	//	});
 	//}
-
-	$scope.readDbFTV = function(){
-		// Play FonoTV video
-		coub.getCoubsForFTV(local_json).success(function(data){
-			video_source = data;	
-			playVideo(video_source, "video-about");
-		});
-	}
-
-	$scope.deleteDbFTV = function(){
-		// Delete FonoTV DB
-		coub.deleteDbFTV(system_calls, local_json).success(function(data){
-			video_source = data;	
-		});
-	}
 
 }]);
